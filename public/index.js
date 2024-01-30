@@ -1089,7 +1089,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
-          function useReducer(reducer, initialArg, init) {
+          function useReducer2(reducer, initialArg, init) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
@@ -1885,7 +1885,7 @@
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect;
           exports.useMemo = useMemo;
-          exports.useReducer = useReducer;
+          exports.useReducer = useReducer2;
           exports.useRef = useRef;
           exports.useState = useState;
           exports.useSyncExternalStore = useSyncExternalStore;
@@ -2383,9 +2383,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React3 = require_react();
+          var React4 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React4.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -3990,7 +3990,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React3.Children.forEach(props.children, function(child) {
+                  React4.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12437,7 +12437,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React3.Component().refs;
+          var emptyRefsObject = new React4.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -23509,19 +23509,46 @@
   });
 
   // public/Components/index.tsx
-  var import_react2 = __toESM(require_react());
+  var import_react3 = __toESM(require_react());
   var import_client = __toESM(require_client());
 
   // public/Components/App.tsx
+  var import_react2 = __toESM(require_react());
+
+  // public/Components/Counter.tsx
   var import_react = __toESM(require_react());
+  var Counter = () => {
+    function inc(step = 1) {
+      return { type: "Inc", step };
+    }
+    const dec = (step = 1) => ({ type: "Dec", step });
+    const reset = (value = 0) => ({
+      type: "Reset",
+      value
+    });
+    const reducer = (state, action) => {
+      switch (action.type) {
+        case "Inc":
+          return state + action.step;
+        case "Dec":
+          return state - action.step;
+        case "Reset":
+          return action.value;
+      }
+    };
+    const [count, dispatch] = (0, import_react.useReducer)(reducer, 0);
+    return /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("span", null, count), /* @__PURE__ */ import_react.default.createElement("button", { onClick: () => dispatch(inc()) }, "+"), /* @__PURE__ */ import_react.default.createElement("button", { onClick: () => dispatch(dec()) }, "-"), /* @__PURE__ */ import_react.default.createElement("button", { onClick: () => dispatch(reset()) }, "Reset"));
+  };
+
+  // public/Components/App.tsx
   var App = () => {
-    return /* @__PURE__ */ import_react.default.createElement("div", null, "React Practice");
+    return /* @__PURE__ */ import_react2.default.createElement(Counter, null);
   };
 
   // public/Components/index.tsx
   var domNode = document.getElementById("root");
   var root = (0, import_client.createRoot)(domNode);
-  root.render(/* @__PURE__ */ import_react2.default.createElement(App, null));
+  root.render(/* @__PURE__ */ import_react3.default.createElement(App, null));
 })();
 /*! Bundled license information:
 
